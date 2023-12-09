@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="static\style.css">
+</head>
+<body style="font-family: sans-serif; background-color: rgb(248, 248, 248);">
+    <center>
+        <h1 style="margin-bottom: 50px; font-size: 40px;">
+            Your Investments
+        </h1>
+        <div>
+           {% for i in range(sharePrices|length) %}
+            <div class="container">
+                <h1>
+                    {{shareNames[i]}}
+                </h1>
+                <table style="border-spacing: 30px; font-size: 18px; font-weight: bold;">
+                    <tr>
+                        <td >
+                            Price of One Share when Purchased(₹)
+                        </td>
+                        <td>
+                            Total Shares Purchased
+                        </td>
+                        <td>
+                            Current value of the Share
+                        </td>
+                        <td>
+                            Total Purchase Price
+                        </td>
+                        <td>
+                            Total Current Price
+                        </td>
+                        <td>
+                            Today's Profit
+                        </td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td>
+                            {{originalSharePrice[i]}} ₹
+                        </td>
+                        <td>
+                            {{numberOfSharesPurchased[i]}}
+                        </td>
+                        <td>
+                            {{sharePrices[i]}} ₹
+                        </td>
+                        <td>
+                            {{originalSharePrice[i]*numberOfSharesPurchased[i]}} ₹
+                        </td>
+                        <td>
+                            {{sharePrices[i]|int*numberOfSharesPurchased[i]}} ₹
+                        </td>
+                        <td>
+                            {{(sharePrices[i]|int*numberOfSharesPurchased[i])-originalSharePrice[i]*numberOfSharesPurchased[i]}} ₹
+                        </td>
+                    </tr>
+                </table>
+            </div>
+           {% endfor %}
+
+        </div>
+        <div class="container2">
+
+            <div class="inner">
+        
+                {% set ans = namespace(value=0)%}
+                {% for i in range(originalSharePrice|length - 2) %}
+                    {% set ans.value = ans.value + originalSharePrice[i]*numberOfSharesPurchased[i] %}
+                {% endfor %}
+                Total Purchase Price of All Shares : {{ans.value}}
+            </div>
+            <div class="inner">
+        
+                {% set ans2 = namespace(value=0)%}
+                {% for i in range(originalSharePrice|length - 2) %}
+                    {% set ans2.value = ans2.value + sharePrices[i]|int*numberOfSharesPurchased[i] %}
+                {% endfor %}
+                Total of Current Price of All Shares : {{ans2.value}}
+            </div>
+            <div class="inner">
+                {% set ans1 = namespace(value=0)%}
+                {% for i in range(originalSharePrice|length - 2) %}
+                {% set ans1.value = ans1.value + ((sharePrices[i]|int*numberOfSharesPurchased[i])-originalSharePrice[i]*numberOfSharesPurchased[i]) %}
+                {% endfor %}
+                Total Profit of Today : {{ans1.value}}
+        
+            </div>
+            <p style="color: red; font-size: small;">
+                Note: These numbers does not include SUZLON share
+            </p>
+        </div>
+        <!-- <div class="container2">
+            <form action="">
+            <h2>
+                If you want to add new Stock, click the button below
+            </h2>
+            <br>
+            <button type="submit" class="button">ADD</button>
+        </form>
+        </div> -->
+    </center>
+</body>
+</html>
